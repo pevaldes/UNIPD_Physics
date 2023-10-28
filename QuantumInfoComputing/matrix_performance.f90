@@ -1,13 +1,14 @@
 program matrixPerformance
 
-    real    ::  matrix1(4,4), matrix2(4,4)
-    real*4    :: a
+    integer*2   ::  matrix3(5,5), matrix2(4,4)
+    real    :: a
+    integer :: rand_integer
 
     ! Testin Performance
 
-    do i=1,4
-        matrix1(i,i) = 1
-    end do
+    !do i=1,4
+     !   matrix1(i,i) = 1
+    !end do
 
     call random_number(a)
 
@@ -17,8 +18,15 @@ program matrixPerformance
 
     print *, ''
 
-    do i=1,4
-        write(*,*)(matrix1(i,j),j=1,4)
+    do i=1,5
+        write(*,*)(matrix3(i,j),j=1,5)
     end do 
+
+    print *, ''
+    print *, a 
+
+    rand_integer = floor(100*a)
+    print *, rand_integer
+
 
 end program matrixPerformance

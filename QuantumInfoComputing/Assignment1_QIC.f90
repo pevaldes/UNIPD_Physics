@@ -1,4 +1,5 @@
 program numberPrecision
+    implicit none
     ! Integer and real numbers have a finite precision. 
 
     ! (a) Sum integer
