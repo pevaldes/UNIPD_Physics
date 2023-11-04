@@ -3,14 +3,17 @@ program matrixPerformance
     integer, allocatable :: seed(:)
     integer :: nseed
 
-    integer, parameter :: dimA1 = 3, dimA2 = 3, dimB1 = 3, dimB2 = 3
+    integer :: io, io1, io2, io3
+
+    integer, parameter :: N = 11
+    integer, parameter :: dimA1 = 2**N, dimA2 = 2**N, dimB1 = 2**N, dimB2 = 2**N
     integer, dimension(dimA1, dimA2) ::  matrix1
     integer, dimension(dimB1, dimB2) :: matrix2
-    integer, dimension(size(matrix1, dim=1), size(matrix2, dim=2)) :: matrix_mult ! Result of matrix multiplication with the proper size
+    integer, dimension(size(matrix1, dim=1), size(matrix2, dim=2)) :: matrix_mult, matrix_mult2, fortran_mult ! Result of matrix multiplication with the proper size
     real    :: a, b
     integer :: rand_integer1, rand_integer2
     integer :: entries_sum
-    real*4 :: t1_i, t1_f, T1, t2_i, t2_f, T2
+    real*4 :: t1_i, t1_f, T1, t2_i, t2_f, T2, t3_i, t3_f, T3
 
     !Set a seed for reproducible calculations
     call random_seed(size=nseed)
@@ -38,20 +41,20 @@ program matrixPerformance
         end do
     end do
 
-    print *, 'Matrix 1: '
+    !print *, 'Matrix 1: '
 
-    do i=1,size(matrix1, dim=1)
-        write(*,*)(matrix1(i,j),j=1,size(matrix1, dim=2))
-    end do 
+    !do i=1,size(matrix1, dim=1)
+     !   write(*,*)(matrix1(i,j),j=1,size(matrix1, dim=2))
+    !end do 
 
-    print *, ''
-    print *, 'Matrix 2'
+    !print *, ''
+    !print *, 'Matrix 2'
 
-    do i=1,size(matrix2, dim=1)
-        write(*,*)(matrix2(i,j),j=1,size(matrix2, dim=2))
-    end do 
+    !do i=1,size(matrix2, dim=1)
+     !   write(*,*)(matrix2(i,j),j=1,size(matrix2, dim=2))
+    !end do 
 
-    print *, ''
+    !print *, ''
 
     ! Method 1 for matrix-matrix multiplication
     call cpu_time(t1_i)
@@ -68,9 +71,9 @@ program matrixPerformance
 
     print *, 'Matrix-Matrxix multiplication'
     !Result method 1
-    do i=1,size(matrix_mult, dim=1)
-        write(*,*)(matrix_mult(i,j),j=1,size(matrix_mult, dim=2))
-    end do 
+    !do i=1,size(matrix_mult, dim=1)
+     !   write(*,*)(matrix_mult(i,j),j=1,size(matrix_mult, dim=2))
+    !end do 
 
     print *, ''
     T1 = t1_f - t1_i
@@ -78,6 +81,66 @@ program matrixPerformance
     print *, ''
     
     !Method 2 for matrix-matrix multplication
-    
+    call cpu_time(t2_i)
+    do j=1,size(matrix1, dim=1)
+        do i=1,size(matrix2, dim=2)
+            entries_sum = 0
+            do k=1,size(matrix1, dim=2)
+                entries_sum = entries_sum + matrix1(i,k) * matrix2(k,j)
+            end do
+            matrix_mult2(i,j) = entries_sum
+        end do
+    end do
+    call cpu_time(t2_f)
+
+
+    !Result method 2
+    !do i=1,size(matrix_mult2, dim=1)
+     !   write(*,*)(matrix_mult2(i,j),j=1,size(matrix_mult2, dim=2))
+    !end do 
+
+    T2 = t2_f - t2_i
+    print *, 'Running time method 2: ', T2, 'sec'
+    print *, ''
+
+    !Fortran intrinsic matrix
+    print *, 'Fotran matrix multiplication function'
+    call cpu_time(t3_i)
+    fortran_mult =  matmul(matrix1,matrix2)
+    call cpu_time(t3_f)
+
+    !do i=1,size(fortran_mult, dim=1)
+     !   write(*,*)(fortran_mult(i,j),j=1,size(fortran_mult, dim=2))
+    !end do
+
+    print *,''
+
+    T3 = t3_f - t3_i
+    print*, 'Running time fortran method: ', T3, 'sec'
+    print *, ''
+
+    open(newunit=io, file="data_matrixPerformance_Ofast.txt", position='append', action='write')
+    write(io,*)'Method 1: ', T1, ' sec; ', N
+    write(io,*)'Method 2: ', T2, ' sec; ', N
+    write(io,*)'Fortran method: ', T3, 'sec; ', N
+    close(io)
+
+    open(newunit=io1, file="result_method1.txt", action='write')
+    do i=1,size(matrix_mult, dim=1)
+        write(io1,*)(matrix_mult(i,j),j=1,size(matrix_mult, dim=2))
+    end do
+    close(io1)
+
+    open(newunit=io2, file="result_method2.txt", action='write')
+    do i=1,size(matrix_mult2, dim=1)
+        write(io2,*)(matrix_mult2(i,j),j=1,size(matrix_mult2, dim=2))
+    end do
+    close(io2)
+
+    open(newunit=io3, file="result_fortran.txt", action='write')
+    do i=1,size(fortran_mult, dim=1)
+        write(io3,*)(fortran_mult(i,j),j=1,size(fortran_mult, dim=2))
+    end do
+    close(io3)
 
 end program matrixPerformance
