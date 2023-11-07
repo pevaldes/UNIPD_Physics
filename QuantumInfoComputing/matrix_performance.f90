@@ -6,7 +6,7 @@ program matrixPerformance
     integer :: io, io1, io2, io3
 
 
-    real, parameter :: nn = log(1900.0)/log(2.0)
+    real, parameter :: nn = log(1900.0)/log(2.0) !First number is to define the dimension of the matrix
     real, parameter :: N = nn
     integer, parameter :: dimA1 = nint(2.0**N), dimA2 = nint(2.0**N), dimB1 = nint(2.0**N), dimB2 = nint(2.0**N)
     integer, dimension(dimA1, dimA2) ::  matrix1
@@ -58,7 +58,7 @@ program matrixPerformance
 
     !print *, ''
 
-    ! Method 1 for matrix-matrix multiplication
+    ! Method 1 for matrix-matrix multiplication (row selection)
     call cpu_time(t1_i)
     do i=1,size(matrix1, dim=1)
         do j=1,size(matrix2, dim=2)
@@ -82,7 +82,7 @@ program matrixPerformance
     print *, 'Running time method 1: ', T1, ' sec'
     print *, ''
     
-    !Method 2 for matrix-matrix multplication
+    !Method 2 for matrix-matrix multplication (column selection)
     call cpu_time(t2_i)
     do j=1,size(matrix1, dim=1)
         do i=1,size(matrix2, dim=2)
@@ -105,7 +105,7 @@ program matrixPerformance
     print *, 'Running time method 2: ', T2, 'sec'
     print *, ''
 
-    !Fortran intrinsic matrix
+    !Fortran intrinsic matrix matrix multiplication
     print *, 'Fotran matrix multiplication function'
     call cpu_time(t3_i)
     fortran_mult =  matmul(matrix1,matrix2)
@@ -121,12 +121,14 @@ program matrixPerformance
     print*, 'Running time fortran method: ', T3, 'sec'
     print *, ''
 
-    open(newunit=io, file="data_matrixPerformance_O2.txt", position='append', action='write')
+    !Write times in txt file to analyse later
+    open(newunit=io, file="data_matrixPerformance_Ofast.txt", position='append', action='write')
     write(io,*)'Method 1: ', T1, ' sec; ', N
     write(io,*)'Method 2: ', T2, ' sec; ', N
     write(io,*)'Fortran method: ', T3, 'sec; ', N
     close(io)
 
+    !Write the matrix producto in a txt file. Needed when using flags
     open(newunit=io1, file="result_method1.txt", action='write')
     do i=1,size(matrix_mult, dim=1)
         write(io1,*)(matrix_mult(i,j),j=1,size(matrix_mult, dim=2))
