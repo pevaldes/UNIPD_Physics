@@ -5,8 +5,10 @@ program matrixPerformance
 
     integer :: io, io1, io2, io3
 
-    integer, parameter :: N = 11
-    integer, parameter :: dimA1 = 2**N, dimA2 = 2**N, dimB1 = 2**N, dimB2 = 2**N
+
+    real, parameter :: nn = log(1900.0)/log(2.0)
+    real, parameter :: N = nn
+    integer, parameter :: dimA1 = nint(2.0**N), dimA2 = nint(2.0**N), dimB1 = nint(2.0**N), dimB2 = nint(2.0**N)
     integer, dimension(dimA1, dimA2) ::  matrix1
     integer, dimension(dimB1, dimB2) :: matrix2
     integer, dimension(size(matrix1, dim=1), size(matrix2, dim=2)) :: matrix_mult, matrix_mult2, fortran_mult ! Result of matrix multiplication with the proper size
@@ -119,7 +121,7 @@ program matrixPerformance
     print*, 'Running time fortran method: ', T3, 'sec'
     print *, ''
 
-    open(newunit=io, file="data_matrixPerformance_Ofast.txt", position='append', action='write')
+    open(newunit=io, file="data_matrixPerformance_O2.txt", position='append', action='write')
     write(io,*)'Method 1: ', T1, ' sec; ', N
     write(io,*)'Method 2: ', T2, ' sec; ', N
     write(io,*)'Fortran method: ', T3, 'sec; ', N
