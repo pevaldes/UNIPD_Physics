@@ -52,13 +52,13 @@ double disk(double r, int N){
 	double I; // Approximation integral
 	
 	FILE* file = fopen("disk_numbers.txt", "w");
-	fprintf(file, "X; Y\n");
+	fprintf(file, "X;Y;r(%lf)\n", r);
 	while(i<N){
 		A1 = (rand() % 1000000)/1000000.;
 		A2 = (rand() % 1000000)/1000000.;
 		x = r*A1;
 		y = r*A2;
-		fprintf(file, "%lf; %lf\n", x, y);
+		fprintf(file, "%lf;%lf;%lf\n", x, y, pow(x,2) + pow(y,2));
 
 		if(pow(x,2) + pow(y,2) <= r){ // Condition function
 			n++;
