@@ -23,17 +23,21 @@ double rectangle(int a, int b, int c, int d, int N){
 	int n = 0; // Hits
 	double I; // Approximation integral
 	
+	FILE* file = fopen("rectangle.txt", "w");
+	fprintf(file, "X(%i,%i); Y(%i,%i)\n", a,b,c,d);
 	while(i<N){
 		A1 = (rand() % 1000000)/1000000.;
 		A2 = (rand() % 1000000)/1000000.;
 		x = (a+(b-a)*A1);
 		y = (d-c)*A2;
-		
+		fprintf(file, "%lf; %lf\n", x, y);
+
 		if((y+c) <= d && (y+c) >= c){ // Condition function
 			n++;
 		}
-		i++;
+		i++;		
 	}
+	fclose(file);
 	I = n*(b-a)*(d-c)/N;
 	printf("Rectangle area = %lf, n = %i\n",I,i);
 }
@@ -47,17 +51,22 @@ double disk(double r, int N){
 	int n = 0; // Hits
 	double I; // Approximation integral
 	
+	FILE* file = fopen("disk_numbers.txt", "w");
+	fprintf(file, "X; Y\n");
 	while(i<N){
 		A1 = (rand() % 1000000)/1000000.;
 		A2 = (rand() % 1000000)/1000000.;
 		x = r*A1;
 		y = r*A2;
-		
+		fprintf(file, "%lf; %lf\n", x, y);
+
 		if(pow(x,2) + pow(y,2) <= r){ // Condition function
 			n++;
 		}
 		i++;
 	}
+	fclose(file);
+
 	I = 4*n*r*r/N;
 	printf("Unit radius disk area = %lf, n = %i\n", I,n);
 }
@@ -72,6 +81,7 @@ double* power_law_dist_inversion(int n, int a, int N){
 	int i;
 	double dist[N];
 	double xi, x; 
+
 	for(i = 0; i < N; i++){
 		xi = (rand() % 1000000)/1000000.;
 		double prod = pow(a,n+1)*xi;
@@ -105,5 +115,5 @@ double main(int argn, char **argc){
 	
 	/* Sampling random numbers from a given distribution (Inversion method) */
 	
-	power_law_dist_inversion(2,2,N);
+	//power_law_dist_inversion(2,2,N);
 }
