@@ -97,7 +97,7 @@ double* power_law_dist_inversion(int n, int a, int N){
 	
 		
 	
-	FILE* file = fopen("distribution.txt","w");
+	FILE* file = fopen("distribution_pow4_lim1.txt","w");
 	int loop;
 	for(loop = 0; loop < N; loop++){
 		fprintf(file, "%lf;", dist[loop]);
@@ -115,5 +115,5 @@ double main(int argn, char **argc){
 	
 	/* Sampling random numbers from a given distribution (Inversion method) */
 	
-	//power_law_dist_inversion(2,2,N);
+	power_law_dist_inversion(4,1,N);
 }
