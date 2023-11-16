@@ -29,10 +29,10 @@ double rectangle(int a, int b, int c, int d, int N){
 		A1 = (rand() % 1000000)/1000000.;
 		A2 = (rand() % 1000000)/1000000.;
 		x = (a+(b-a)*A1);
-		y = (d-c)*A2;
+		y = (c+(d-c)*A2);
 		fprintf(file, "%lf; %lf\n", x, y);
 
-		if((y+c) <= d && (y+c) >= c){ // Condition function
+		if((y) <= d && (y) >= c){ // Condition function
 			n++;
 		}
 		i++;		
