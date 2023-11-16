@@ -110,7 +110,7 @@ double main(int argn, char **argc){
 	int N = 100000;
 	
 	/* Sampling random points within D-dimensional domains by hit and miss */
-	rectangle(2,4,2,4,N);
+	rectangle(2,5,2,4,N);
 	disk(1,N);
 	
 	/* Sampling random numbers from a given distribution (Inversion method) */
