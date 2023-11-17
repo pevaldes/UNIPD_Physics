@@ -19,19 +19,22 @@ double direct_samplig(int N){
     */ 
     double xi1, xi2;
     double r, theta;
+    double x,y;
     int i = 0;
     double pi = 4*atanf(1.);
 
     FILE* file = fopen("direct_sampling_disk.txt", "w");
-    fprintf(file,"r;theta\n");
+    fprintf(file,"r;theta;x;y\n");
     while(i<N){
         xi1 = (rand() % 1000000)/1000000.;
         xi2 = (rand() % 1000000)/1000000.;
 
         r = xi1;
         theta = 2*pi*xi2;
+        x = r*cos(theta);
+        y = r*sin(theta);
 
-        fprintf(file,"%lf;%lf\n", r, theta);
+        fprintf(file,"%lf;%lf;%lf;%lf\n", r, theta, x,y);
         i++;
     }
 
@@ -42,20 +45,23 @@ double direct_samplig(int N){
 
 double transform_coord(double r, int N){
     double x, y;
+    double xi1, xi2;
     double dr, theta;
     int i = 0;
     double pi = 4*atanf(1.);
 
     FILE* file = fopen("transform_sampling.txt", "w");
-    fprintf(file, "r;theta\n");
+    fprintf(file, "r;theta;x;y\n");
     while(i<N){
-        x = (rand() % 1000000)/1000000.;
-        y = (rand() % 1000000)/1000000.;
+        xi1 = (rand() % 1000000)/1000000.;
+        xi2 = (rand() % 1000000)/1000000.;
 
-        dr = sqrt(x);
-        theta = 2*pi*r*y;
+        dr = sqrt(xi1);
+        theta = 2*pi*r*xi2;
+        x = dr*cos(theta);
+        y = dr*sin(theta);
 
-        fprintf(file, "%lf;%lf\n", dr, theta);
+        fprintf(file, "%lf;%lf;%lf;%lf\n", dr, theta,x,y);
         i++;
     }
     fclose(file);
