@@ -28,11 +28,11 @@ double rejection(double p, int c, int N){
         if(x>p){
             g = (A/p)*x*exp(pow(p,2) - pow(x,2));
         }
-        else{
+        else if(x<=p && x>0){
             g = A;
         }
         ratio = rho/(c*g);
-        if(xi>ratio){
+        if(xi<ratio){
             distg[i] = x; // Accept values according to the rejection method
         }
         y = c*xi*g;
@@ -42,7 +42,7 @@ double rejection(double p, int c, int N){
         }
     }
 
-    FILE* file = fopen("rejection_sampling_p03.txt", "w");
+    FILE* file = fopen("rejection_sampling_p04.txt", "w");
     fprintf(file,"x;y\n");
     int loop;
     for(loop = 0; loop < N; loop++){
@@ -54,5 +54,5 @@ double rejection(double p, int c, int N){
 double main(int argn, char **argc){
 	int N = 100000;
 	
-	rejection(0.3,2,N);
+	rejection(0.4,2,N);
 }
