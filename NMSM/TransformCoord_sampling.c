@@ -70,7 +70,7 @@ double transform_coord(double r, int N){
 }
 
 double main(int argn, char **argc){
-	int N = 1000;
+	int N = 50000;
 	
 	direct_samplig(N);
     transform_coord(1,N);
