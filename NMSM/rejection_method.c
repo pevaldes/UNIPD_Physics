@@ -43,7 +43,7 @@ double rejection(double p, int N){
         }
     }
 
-    FILE* file = fopen("rejection_sampling_p02.txt", "w");
+    FILE* file = fopen("rejection_sampling_p05.txt", "w");
     fprintf(file,"x;y\n");
     int loop;
     for(loop = 0; loop < N; loop++){
@@ -55,5 +55,5 @@ double rejection(double p, int N){
 double main(int argn, char **argc){
 	int N = 100000;
 	
-	rejection(0.2,N);
+	rejection(0.5,N);
 }
